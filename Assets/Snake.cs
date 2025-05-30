@@ -3,9 +3,7 @@ using UnityEngine;
 
 public class Snake : MonoBehaviour
 {
-    public float moveSpeed;
-    public Rigidbody2D rb;
-    private Vector2 moveDirection;
+    private Vector2 direction = Vector2.right;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -15,29 +13,33 @@ public class Snake : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        ProcessInputs();
+        if (Input.GetKey(KeyCode.W))
+        {
+            direction = Vector2.up;
+        }
+        else if (Input.GetKey(KeyCode.S))
+        {
+            direction = Vector2.down;
+        }
+        else if(Input.GetKey(KeyCode.D))
+        {
+            direction = Vector2.right;
+        }
+        else if(Input.GetKey(KeyCode.A))
+        {
+            direction = Vector2.left;
+        }
     }
 
     void FixedUpdate()
     {
-        Move();
-    }
-
-    void ProcessInputs()
-    {
-        float moveX = Input.GetAxisRaw("Horizontal");
-        float moveY = Input.GetAxisRaw("Vertical");
-
-        moveDirection = new Vector2(moveX, moveY);
-    }
-
-    void Move()
-    {
-        rb.linearVelocity = new Vector2(moveDirection.x * moveSpeed, moveDirection.y * moveSpeed);
+        this.transform.position = new Vector3(Mathf.Round(this.transform.position.x) + direction.x, Mathf.Round(this.transform.position.y)
+            + direction.y, 0.0f);
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        
+        if (collision.gameObject.tag == "Wall")
+            this.transform.position = new Vector3(0.0f, 0.0f, 0.0f);
     }
 }
