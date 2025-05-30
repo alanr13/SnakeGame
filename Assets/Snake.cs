@@ -4,10 +4,11 @@ using UnityEngine;
 public class Snake : MonoBehaviour
 {
     private Vector2 direction = Vector2.right;
+    LogicManager logic;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        
+        logic = GameObject.FindGameObjectWithTag("LogicManager").GetComponent<LogicManager>();
     }
 
     // Update is called once per frame
@@ -40,6 +41,9 @@ public class Snake : MonoBehaviour
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.gameObject.tag == "Wall")
-            this.transform.position = new Vector3(0.0f, 0.0f, 0.0f);
+        {
+            logic.GameOver();
+            this.gameObject.SetActive(false);
+        }
     }
 }
