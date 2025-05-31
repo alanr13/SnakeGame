@@ -3,10 +3,11 @@ using UnityEngine;
 public class Food : MonoBehaviour
 {
     public BoxCollider2D GridArea;
+    LogicManager logic;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        
+        logic = GameObject.FindGameObjectWithTag("LogicManager").GetComponent<LogicManager>();
     }
 
     // Update is called once per frame
@@ -27,6 +28,7 @@ public class Food : MonoBehaviour
         if (collision.gameObject.tag == "Player")
         {
             RandomPosition();
+            logic.AddScore();
         }
     }
 }
