@@ -2,6 +2,7 @@ using JetBrains.Annotations;
 using System.Collections.Generic;
 using NUnit.Framework;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class Snake : MonoBehaviour
 {
@@ -19,22 +20,24 @@ public class Snake : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKey(KeyCode.W))
+        if (Input.GetKey(KeyCode.W) && direction != Vector2.down)
         {
             direction = Vector2.up;
         }
-        else if (Input.GetKey(KeyCode.S))
+        else if (Input.GetKey(KeyCode.S) && direction != Vector2.up)
         {
             direction = Vector2.down;
         }
-        else if(Input.GetKey(KeyCode.D))
+        else if (Input.GetKey(KeyCode.D) && direction != Vector2.left)
         {
             direction = Vector2.right;
         }
-        else if(Input.GetKey(KeyCode.A))
+        else if (Input.GetKey(KeyCode.A) && direction != Vector2.right)
         {
             direction = Vector2.left;
         }
+
+
     }
 
     void FixedUpdate()
@@ -61,7 +64,7 @@ public class Snake : MonoBehaviour
         {
             Grow();
         }
-        else if (collision.gameObject.tag == "Wall")
+        else if (collision.gameObject.tag == "Wall" || collision.gameObject.tag == "Player")
         {
             logic.GameOver();
             this.gameObject.SetActive(false);
